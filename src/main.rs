@@ -5,6 +5,8 @@ fn main() {
         .vsync()
         .size(1200, 1000)
         .build();
+    let rl_audio = RaylibAudio::init_audio_device().unwrap();
+    let clack = rl_audio.new_sound_from_wave(&rl_audio.new_wave_from_memory(".wav", include_bytes!("clack.wav")).unwrap()).unwrap();
 
     let mut block1 = Block {
         pos: 150.0,
@@ -34,6 +36,7 @@ fn main() {
             let collision = collision_t <= rem_t && collision_t >= 0.0;
 
             if collision {
+                clack.play();
                 rem_t -= collision_t;
                 collisions += 1;
 
